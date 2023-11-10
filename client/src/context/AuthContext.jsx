@@ -82,10 +82,11 @@ export const AuthContextProvider = ({ children }) => {
     [loginInfo]
   );
 
-  const logoutUser = useCallback(() => {
+  const logoutUser = useCallback(async () => {
+    await postRequest(`${baseUrl}/users/logout`);
     localStorage.removeItem("User");
     setUser(null);
-  });
+  }, []);
 
   return (
     <AuthContext.Provider

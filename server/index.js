@@ -1,23 +1,31 @@
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
+const cookieParser = require("cookie-parser");
 const userRoute = require("./Routes/userRoute");
 const chatRoute = require("./Routes/chatRoute");
 const messageRoute = require("./Routes/messageRoute");
+const { notFound, errorHandler } = require("./middleware/errorMiddleware");
+const protect = require("./middleware/authMiddleware");
 
 const app = express();
 require("dotenv").config();
 
 app.use(express.json());
 app.use(cors());
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 app.get("/", (req, res) => {
   res.send("Welcome to our chat app APIs");
 });
 
 app.use("/api/users", userRoute);
-app.use("/api/chats", chatRoute);
-app.use("/api/messages", messageRoute);
+app.use("/api/chats", protect, chatRoute);
+app.use("/api/messages", protect, messageRoute);
+
+app.use(notFound);
+app.use(errorHandler);
 
 const port = process.env.PORT || 5000;
 const uri = process.env.ATLAS_URI;

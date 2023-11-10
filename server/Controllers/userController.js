@@ -1,13 +1,7 @@
 const userModel = require("../Models/userModel");
 const bcrypt = require("bcrypt");
 const validator = require("validator");
-const jwt = require("jsonwebtoken");
-
-const createToken = (_id) => {
-  const jwtkey = process.env.JWT_SECRET_KEY;
-
-  return jwt.sign({ _id }, jwtkey, { expiresIn: "3d" });
-};
+const generateToken = require("../utils/generateToken");
 
 const registerUser = async (req, res) => {
   try {
@@ -36,9 +30,9 @@ const registerUser = async (req, res) => {
 
     await user.save();
 
-    const token = createToken(user._id);
+    generateToken(res, user._id);
 
-    res.status(200).json({ _id: user._id, name, email, token });
+    res.status(200).json({ _id: user._id, name, email });
   } catch (error) {
     console.log(error);
     res.status(500).json(error);
@@ -58,13 +52,22 @@ const loginUser = async (req, res) => {
     if (!isValidPassword)
       return res.status(400).json("Invalid email or password...");
 
-    const token = createToken(user._id);
+    generateToken(res, user._id);
 
-    res.status(200).json({ _id: user._id, name: user.name, email, token });
+    res.status(200).json({ _id: user._id, name: user.name, email });
   } catch (error) {
     console.log(error);
     res.status(500).json(error);
   }
+};
+
+const logoutUser = (req, res) => {
+  res.cookie("jwt", "", {
+    httpOnly: true,
+    expires: new Date(0),
+  });
+
+  res.status(200).json({ message: "Logged out successfully" });
 };
 
 const findUser = async (req, res) => {
@@ -91,4 +94,4 @@ const getUsers = async (req, res) => {
   }
 };
 
-module.exports = { registerUser, loginUser, findUser, getUsers };
+module.exports = { registerUser, loginUser, logoutUser, findUser, getUsers };
