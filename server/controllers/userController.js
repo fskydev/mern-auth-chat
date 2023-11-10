@@ -1,15 +1,13 @@
-const userModel = require("../models/userModel");
-const bcrypt = require("bcrypt");
-const validator = require("validator");
-const generateToken = require("../utils/generateToken");
+import User from "../models/userModel.js";
+import bcrypt from "bcrypt";
+import validator from "validator";
+import generateToken from "../utils/generateToken.js";
 
 const registerUser = async (req, res) => {
   try {
     const { name, email, password } = req.body;
 
-    let user = await userModel.findOne({ email });
-
-    console.log("req.body => ", req.body);
+    let user = await User.findOne({ email });
 
     if (user)
       return res.status(400).json("User with the given email already exist...");
@@ -23,7 +21,7 @@ const registerUser = async (req, res) => {
     if (!validator.isStrongPassword(password))
       return res.status(400).json("Password must be a strong password...");
 
-    user = new userModel({ name, email, password });
+    user = new User({ name, email, password });
 
     const salt = await bcrypt.genSalt(10);
     user.password = await bcrypt.hash(user.password, salt);
@@ -43,7 +41,7 @@ const loginUser = async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    let user = await userModel.findOne({ email });
+    let user = await User.findOne({ email });
 
     if (!user) return res.status(400).json("Invalid email or password...");
 
@@ -74,7 +72,7 @@ const findUser = async (req, res) => {
   const userId = req.params.userId;
 
   try {
-    const user = await userModel.findById(userId);
+    const user = await User.findById(userId);
 
     res.status(200).json(user);
   } catch (error) {
@@ -85,7 +83,7 @@ const findUser = async (req, res) => {
 
 const getUsers = async (req, res) => {
   try {
-    const users = await userModel.find();
+    const users = await User.find();
 
     res.status(200).json(users);
   } catch (error) {
@@ -94,4 +92,4 @@ const getUsers = async (req, res) => {
   }
 };
 
-module.exports = { registerUser, loginUser, logoutUser, findUser, getUsers };
+export { registerUser, loginUser, logoutUser, findUser, getUsers };

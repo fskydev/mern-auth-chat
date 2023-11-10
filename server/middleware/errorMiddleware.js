@@ -14,12 +14,10 @@ const errorHandler = (err, req, res, next) => {
     message = "Resource not found";
   }
 
-  console.log({ err });
-
   res.status(statusCode).json({
     message: message,
     stack: err.stack,
   });
 };
 
-module.exports = { notFound, errorHandler };
+export { notFound, errorHandler };

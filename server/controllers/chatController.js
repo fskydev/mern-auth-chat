@@ -1,20 +1,16 @@
-const chatModel = require("../models/chatModel");
-
-// createChat
-// getUserChats
-// findChat
+import Chat from "../models/chatModel.js";
 
 const createChat = async (req, res) => {
   const { firstId, secondId } = req.body;
 
   try {
-    const chat = await chatModel.findOne({
+    const chat = await Chat.findOne({
       members: { $all: [firstId, secondId] },
     });
 
     if (chat) return res.status(200).json(chat);
 
-    const newChat = new chatModel({
+    const newChat = new Chat({
       members: [firstId, secondId],
     });
 
@@ -31,7 +27,7 @@ const findUserChats = async (req, res) => {
   const userId = req.params.userId;
 
   try {
-    const chats = await chatModel.find({
+    const chats = await Chat.find({
       members: { $in: [userId] },
     });
 
@@ -47,7 +43,7 @@ const findChat = async (req, res) => {
   const { firstId, secondId } = req.params;
 
   try {
-    const chat = await chatModel.findOne({
+    const chat = await Chat.findOne({
       members: { $all: [firstId, secondId] },
     });
 
@@ -58,4 +54,4 @@ const findChat = async (req, res) => {
   }
 };
 
-module.exports = { createChat, findUserChats, findChat };
+export { createChat, findUserChats, findChat };

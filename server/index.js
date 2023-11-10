@@ -1,15 +1,17 @@
-const express = require("express");
-const cors = require("cors");
-const mongoose = require("mongoose");
-const cookieParser = require("cookie-parser");
-const userRoute = require("./routes/userRoute");
-const chatRoute = require("./routes/chatRoute");
-const messageRoute = require("./routes/messageRoute");
-const { notFound, errorHandler } = require("./middleware/errorMiddleware");
-const protect = require("./middleware/authMiddleware");
+import express from "express";
+import dotenv from "dotenv";
+import cors from "cors";
+import mongoose from "mongoose";
+import cookieParser from "cookie-parser";
+import userRoute from "./routes/userRoute.js";
+import chatRoute from "./routes/chatRoute.js";
+import messageRoute from "./routes/messageRoute.js";
+import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
+import { protect } from "./middleware/authMiddleware.js";
+
+dotenv.config();
 
 const app = express();
-require("dotenv").config();
 
 app.use(express.json());
 app.use(cors());
