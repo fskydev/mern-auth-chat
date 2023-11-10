@@ -3,7 +3,7 @@ const {
   createChat,
   findUserChats,
   findChat,
-} = require("../Controllers/chatController");
+} = require("../controllers/chatController");
 
 const router = express.Router();
 

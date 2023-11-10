@@ -2,9 +2,9 @@ const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
-const userRoute = require("./Routes/userRoute");
-const chatRoute = require("./Routes/chatRoute");
-const messageRoute = require("./Routes/messageRoute");
+const userRoute = require("./routes/userRoute");
+const chatRoute = require("./routes/chatRoute");
+const messageRoute = require("./routes/messageRoute");
 const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 const protect = require("./middleware/authMiddleware");
 
