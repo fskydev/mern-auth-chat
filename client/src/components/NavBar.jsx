@@ -1,5 +1,4 @@
 import { useContext } from "react";
-import { Container, Navbar, Nav, Stack } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import Notification from "./chat/Notification";
@@ -8,48 +7,32 @@ const NavBar = () => {
   const { user, logoutUser } = useContext(AuthContext);
 
   return (
-    <Navbar bg="dark" className="mb-4" style={{ height: "3.75rem" }}>
-      <Container>
-        <h2>
-          <Link to="/" className="link-light text-decoration-none">
-            ChatApp
-          </Link>
-        </h2>
+    <div className="mb-14 bg-black text-white">
+      <div className="container mx-auto flex items-center justify-between py-3">
+        <Link to="/" className="text-4xl">
+          ChatApp
+        </Link>
         {user && (
-          <span className="text-warning">Logged in as {user?.name}</span>
+          <span className="text-yellow-400">Logged in as {user?.name}</span>
         )}
-        <Nav>
-          <Stack direction="horizontal" gap={3}>
-            {user && (
-              <>
-                <Notification />
-                <Link
-                  onClick={() => logoutUser()}
-                  to="/login"
-                  className="link-light text-decoration-none"
-                >
-                  logout
-                </Link>
-              </>
-            )}
-
-            {!user && (
-              <>
-                <Link to="/login" className="link-light text-decoration-none">
-                  Login
-                </Link>
-                <Link
-                  to="/register"
-                  className="link-light text-decoration-none"
-                >
-                  Register
-                </Link>
-              </>
-            )}
-          </Stack>
-        </Nav>
-      </Container>
-    </Navbar>
+        <div className="flex gap-x-4">
+          {user && (
+            <>
+              <Notification />
+              <Link onClick={() => logoutUser()} to="/login">
+                Logout
+              </Link>
+            </>
+          )}
+          {!user && (
+            <>
+              <Link to="/login">Login</Link>
+              <Link to="/register">Register</Link>
+            </>
+          )}
+        </div>
+      </div>
+    </div>
   );
 };
 

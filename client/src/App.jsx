@@ -2,8 +2,6 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import Chat from "./pages/Chat";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
-import "bootstrap/dist/css/bootstrap.min.css";
-import { Container } from "react-bootstrap";
 import NavBar from "./components/NavBar";
 import { useContext } from "react";
 import { AuthContext } from "./context/AuthContext";
@@ -14,7 +12,7 @@ function App() {
   return (
     <ChatContextProvider user={user}>
       <NavBar />
-      <Container>
+      <div className="container mx-auto">
         <Routes>
           <Route path="/" element={user ? <Chat /> : <Login />}></Route>
           <Route
@@ -24,7 +22,7 @@ function App() {
           <Route path="/login" element={user ? <Chat /> : <Login />}></Route>
           <Route path="*" element={<Navigate to="/" />}></Route>
         </Routes>
-      </Container>
+      </div>
     </ChatContextProvider>
   );
 }

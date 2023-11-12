@@ -8,12 +8,12 @@ const PotentialChats = () => {
 
   return (
     <>
-      <div className="all-users">
+      <div className="mb-4 flex">
         {potentialChats &&
           potentialChats.map((u, index) => {
             return (
               <div
-                className="single-user"
+                className="relative mr-2 cursor-pointer rounded-md bg-sky-400 px-1.5 py-1 text-white"
                 key={index}
                 onClick={() => createChat(user._id, u._id)}
               >

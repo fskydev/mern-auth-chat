@@ -26,9 +26,6 @@ const Notification = () => {
     };
   });
 
-  console.log("un", unreadNotifications);
-  console.log("mn", modifiedNotifications);
-
   return (
     <div className="notifications">
       <div className="notifications-icon" onClick={() => setIsOpen(!isOpen)}>
