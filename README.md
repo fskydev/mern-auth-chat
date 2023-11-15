@@ -1,4 +1,4 @@
-# MERN Auth & Chat App
+# MERN Auth & Chat Starter App
 
 ### Express - JWT -  Socket.io - MongoDB - React - React Router - Context API - TailwindCSS - NodeJS
 
