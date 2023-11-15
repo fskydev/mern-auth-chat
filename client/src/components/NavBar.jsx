@@ -15,7 +15,7 @@ const NavBar = () => {
         {user && (
           <span className="text-yellow-400">Logged in as {user?.name}</span>
         )}
-        <div className="flex gap-x-4">
+        <div className="flex items-center gap-x-4">
           {user && (
             <>
               <Notification />

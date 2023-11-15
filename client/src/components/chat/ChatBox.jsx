@@ -19,7 +19,7 @@ const ChatBox = () => {
 
   if (!recipientUser)
     return (
-      <p className="w-full text-center">No conversation selected yet...</p>
+      <p className="w-full text-center">Select a chat to start messaging</p>
     );
 
   if (isMessagesLoading)
@@ -49,7 +49,7 @@ const ChatBox = () => {
             </div>
           ))}
       </div>
-      <div className="flex w-full flex-none gap-3 bg-[#1e1e1e] p-4">
+      <div className="flex w-full flex-none items-center gap-3 bg-[#1e1e1e] p-4">
         <InputEmoji
           value={textMessage}
           onChange={setTextMessage}
