@@ -20,12 +20,9 @@ export const ChatContextProvider = ({ children, user }) => {
   const [notifications, setNotifications] = useState([]);
   const [allUsers, setAllUsers] = useState([]);
 
-  // console.log({ notifications });
-  console.log("notifications", notifications);
-
   // initial socket
   useEffect(() => {
-    const newSocket = io("http://localhost:3000");
+    const newSocket = io(import.meta.env.VITE_SOCKET_URL);
     setSocket(newSocket);
 
     return () => {
@@ -137,7 +134,7 @@ export const ChatContextProvider = ({ children, user }) => {
       setMessagesError(null);
 
       const response = await getRequest(
-        `${baseUrl}/messages/${currentChat?._id}`
+        `${baseUrl}/messages/${currentChat?._id}`,
       );
 
       setIsMessagesLoading(false);
@@ -162,7 +159,7 @@ export const ChatContextProvider = ({ children, user }) => {
           chatId: currentChatId,
           senderId: sender._id,
           text: textMessage,
-        })
+        }),
       );
 
       if (response.error) {
@@ -173,7 +170,7 @@ export const ChatContextProvider = ({ children, user }) => {
       setMessages((prev) => [...prev, response]);
       setTextMessage("");
     },
-    []
+    [],
   );
 
   const updateCurrentChat = useCallback((chat) => {
@@ -183,7 +180,7 @@ export const ChatContextProvider = ({ children, user }) => {
   const createChat = useCallback(async (firstId, secondId) => {
     const response = await postRequest(
       `${baseUrl}/chats`,
-      JSON.stringify({ firstId, secondId })
+      JSON.stringify({ firstId, secondId }),
     );
 
     if (response.error) {
@@ -225,7 +222,7 @@ export const ChatContextProvider = ({ children, user }) => {
       updateCurrentChat(desiredChat);
       setNotifications(mNotifications);
     },
-    []
+    [],
   );
 
   const markThisUserNotificationsAsRead = useCallback(
@@ -248,7 +245,7 @@ export const ChatContextProvider = ({ children, user }) => {
 
       setNotifications(mNotifications);
     },
-    []
+    [],
   );
 
   return (

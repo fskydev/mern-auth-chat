@@ -19,9 +19,6 @@ export const AuthContextProvider = ({ children }) => {
     password: "",
   });
 
-  console.log("Userr", user);
-  console.log("loginInfo", loginInfo);
-
   useEffect(() => {
     const user = localStorage.getItem("User");
 
@@ -45,7 +42,7 @@ export const AuthContextProvider = ({ children }) => {
 
       const response = await postRequest(
         `${baseUrl}/users/register`,
-        JSON.stringify(registerInfo)
+        JSON.stringify(registerInfo),
       );
       setIsRegisterLoading(false);
 
@@ -56,7 +53,7 @@ export const AuthContextProvider = ({ children }) => {
       localStorage.setItem("User", JSON.stringify(response));
       setUser(response);
     },
-    [registerInfo]
+    [registerInfo],
   );
 
   const loginUser = useCallback(
@@ -68,7 +65,7 @@ export const AuthContextProvider = ({ children }) => {
 
       const response = await postRequest(
         `${baseUrl}/users/login`,
-        JSON.stringify(loginInfo)
+        JSON.stringify(loginInfo),
       );
       setIsLoginLoading(false);
 
@@ -79,7 +76,7 @@ export const AuthContextProvider = ({ children }) => {
       localStorage.setItem("User", JSON.stringify(response));
       setUser(response);
     },
-    [loginInfo]
+    [loginInfo],
   );
 
   const logoutUser = useCallback(async () => {

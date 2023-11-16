@@ -1,6 +1,9 @@
 import { Server } from "socket.io";
+import dotenv from "dotenv";
 
-const io = new Server({ cors: "http://localhost:5173/" });
+dotenv.config();
+
+const io = new Server({ cors: process.env.CLIENT_URL });
 
 let onlineUsers = [];
 
