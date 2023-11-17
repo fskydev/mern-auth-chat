@@ -22,7 +22,7 @@ app.use(express.json());
 app.use(
   cors({
     origin:
-      process.env.NODE_ENV === "production" ? false : process.env.CLIENT_URL,
+      process.env.NODE_ENV === "production" ? false : "http://localhost:5173",
   })
 );
 app.use(express.urlencoded({ extended: true }));

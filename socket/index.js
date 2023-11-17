@@ -9,8 +9,8 @@ const io = new Server({
   cors: {
     origin:
       process.env.NODE_ENV === "production"
-        ? process.env.API_URL
-        : process.env.CLIENT_URL,
+        ? "https://mern-auth-chat.onrender.com"
+        : "http://localhost:5173",
   },
 });
 
