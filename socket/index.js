@@ -3,7 +3,16 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const io = new Server({ cors: process.env.CLIENT_URL });
+const port = process.env.PORT || 3000;
+
+const io = new Server({
+  cors: {
+    origin:
+      process.env.NODE_ENV === "production"
+        ? process.env.API_URL
+        : process.env.CLIENT_URL,
+  },
+});
 
 let onlineUsers = [];
 
@@ -46,4 +55,4 @@ io.on("connection", (socket) => {
   });
 });
 
-io.listen(3000);
+io.listen(port);
