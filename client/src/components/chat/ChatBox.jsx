@@ -19,18 +19,20 @@ const ChatBox = () => {
 
   if (!recipientUser)
     return (
-      <p className="w-full text-center">Select a chat to start messaging</p>
+      <p className="w-full pt-5 text-center">
+        Select a chat to start messaging
+      </p>
     );
 
   if (isMessagesLoading)
     return <p className="w-full text-center">Loading Chat...</p>;
 
   return (
-    <div className="flex h-[calc(100vh-10rem)] w-full flex-col gap-4 overflow-y-auto rounded-xl bg-[#191919]">
+    <div className="flex h-[80vh] w-full flex-col gap-4 overflow-y-auto rounded-xl bg-[#191919] sm:h-[70vh]">
       <div className="flex flex-none items-center justify-center bg-[#1e1e1e] p-3">
         <strong>{recipientUser?.name}</strong>
       </div>
-      <div className="flex max-h-[calc(100vh-15rem)] grow flex-col gap-3 overflow-y-auto px-8 py-0">
+      <div className="flex grow flex-col gap-3 overflow-y-auto px-8 py-0">
         {messages &&
           messages.map((message, index) => (
             <div

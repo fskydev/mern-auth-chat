@@ -14,8 +14,8 @@ const Chat = () => {
     <div className="p-2.5">
       <PotentialChats />
       {userChats?.length < 1 ? null : (
-        <div className="flex flex-row items-start gap-4">
-          <div className="flex h-[85vh] grow-0 flex-col gap-3 pr-3">
+        <div className="flex flex-col items-start gap-4 sm:flex-row">
+          <div className="flex grow-0 flex-col gap-3 pr-3">
             {isUserChatsLoading && <p>Loading chats...</p>}
             {userChats?.map((chat, index) => {
               return (

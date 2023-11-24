@@ -1,12 +1,13 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { ChatContext } from "../../context/ChatContext";
 import { unreadNotificationsFunc } from "../../utils/unreadNotifications";
 import moment from "moment";
 
-const Notification = () => {
-  const [isOpen, setIsOpen] = useState(false);
+import { Popover } from "@headlessui/react";
+import { ChatBubbleOvalLeftEllipsisIcon } from "@heroicons/react/20/solid";
 
+const Notification = () => {
   const { user } = useContext(AuthContext);
   const {
     notifications,
@@ -27,61 +28,76 @@ const Notification = () => {
   });
 
   return (
-    <div className="notifications">
-      <div className="notifications-icon" onClick={() => setIsOpen(!isOpen)}>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="20"
-          height="20"
-          fill="currentColor"
-          className="bi bi-chat-left-fill"
-          viewBox="0 0 16 16"
-        >
-          <path d="M2 0a2 2 0 0 0-2 2v12.793a.5.5 0 0 0 .854.353l2.853-2.853A1 1 0 0 1 4.414 12H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z" />
-        </svg>
-        {unreadNotifications?.length === 0 ? null : (
-          <span className="notification-count">
-            <span>{unreadNotifications?.length}</span>
-          </span>
-        )}
-      </div>
-      {isOpen ? (
-        <div className="notifications-box">
-          <div className="notifications-header">
-            <h3>Notifications</h3>
-            <div
-              className="mark-as-read"
-              onClick={() => markAllNotificationsAsRead(notifications)}
+    <>
+      <Popover className="relative">
+        {({ open, close }) => (
+          <>
+            <Popover.Button
+              className={`${
+                open ? "opacity-90" : "opacity-100"
+              } relative py-2 focus:outline-none`}
             >
-              Mark all as read
-            </div>
-          </div>
-          {modifiedNotifications?.length === 0 ? (
-            <span className="notification">No notification yet...</span>
-          ) : null}
-          {modifiedNotifications &&
-            modifiedNotifications.map((n, index) => {
-              return (
-                <div
-                  key={index}
-                  className={
-                    n.isRead ? "notification" : "notification not-read"
-                  }
-                  onClick={() => {
-                    markNotificationAsRead(n, userChats, user, notifications);
-                    setIsOpen(false);
-                  }}
-                >
-                  <span>{`${n.senderName} sent you a new message`}</span>
-                  <span className="notification-time">
-                    {moment(n.date).calendar()}
+              <ChatBubbleOvalLeftEllipsisIcon className="h-6 w-6 text-white" />
+              {unreadNotifications?.length > 0 && (
+                <span className="absolute -right-1 top-0 flex h-5 w-5 items-center justify-center rounded-full bg-teal-500 text-xs font-medium">
+                  <span>{unreadNotifications?.length}</span>
+                </span>
+              )}
+            </Popover.Button>
+
+            <Popover.Panel className="absolute right-0 z-10 mt-1 w-80  px-4 sm:px-0">
+              <div className="overflow-hidden bg-zinc-900">
+                <div className="flex justify-between p-4">
+                  <span className="flex items-center">
+                    <span className="text-lg font-bold text-white">
+                      Notifications
+                    </span>
+                  </span>
+                  <span
+                    className="block cursor-pointer text-sm font-bold text-zinc-400"
+                    onClick={() => markAllNotificationsAsRead(notifications)}
+                  >
+                    Mark all as read
                   </span>
                 </div>
-              );
-            })}
-        </div>
-      ) : null}
-    </div>
+                {modifiedNotifications?.length === 0 && (
+                  <span className="block border-b border-zinc-500 px-4 py-2 text-sm text-zinc-400">
+                    No notification yet...
+                  </span>
+                )}
+                <div className="relative flex flex-col gap-2 pb-2">
+                  {modifiedNotifications &&
+                    modifiedNotifications.map((n, index) => (
+                      <div
+                        key={index}
+                        className={`${
+                          n.isRead ? "bg-zinc-900" : "bg-zinc-700"
+                        } flex cursor-pointer flex-col border-b border-zinc-500 px-4 py-2 text-sm hover:opacity-90`}
+                        onClick={() => {
+                          close();
+                          markNotificationAsRead(
+                            n,
+                            userChats,
+                            user,
+                            notifications,
+                          );
+                        }}
+                      >
+                        <span className="text-white">
+                          {`${n.senderName} sent you a new message`}
+                        </span>
+                        <span className="text-zinc-400">
+                          {moment(n.date).calendar()}
+                        </span>
+                      </div>
+                    ))}
+                </div>
+              </div>
+            </Popover.Panel>
+          </>
+        )}
+      </Popover>
+    </>
   );
 };
 
