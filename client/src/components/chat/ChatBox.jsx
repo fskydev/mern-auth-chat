@@ -37,9 +37,11 @@ const ChatBox = () => {
 
   if (!recipientUser || !currentChat)
     return (
-      <span className="w-full pt-5 text-center sm:basis-3/4">
-        Select a chat to start messaging
-      </span>
+      <div className="mt-5 w-full text-center sm:basis-3/4">
+        <span className="rounded-full bg-zinc-900/50 px-4 py-1.5">
+          Select a chat to start messaging
+        </span>
+      </div>
     );
 
   if (isMessagesLoading)

@@ -1,4 +1,5 @@
 import { useContext, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import { toast } from "react-toastify";
 
@@ -140,6 +141,11 @@ const Register = () => {
               </button>
             </div>
           </form>
+          <Link to="/login">
+            <span className="mt-6 block underline underline-offset-2">
+              Already have an account?
+            </span>
+          </Link>
         </div>
       </div>
     </>
