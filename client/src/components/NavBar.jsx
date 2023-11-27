@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { Menu } from "@headlessui/react";
-import { ChevronDownIcon } from "@heroicons/react/20/solid";
+import { Bars3Icon, ChevronDownIcon } from "@heroicons/react/20/solid";
 import { AuthContext } from "../context/AuthContext";
 import clsx from "clsx";
 import Notification from "./chat/Notification";
@@ -21,10 +21,17 @@ const NavBar = () => {
               <Notification />
               <Menu as="div" className="relative inline-block text-left">
                 <div>
-                  <Menu.Button className="inline-flex w-full justify-center px-4 py-2 text-white hover:opacity-90 focus:outline-none">
-                    <span className="font-medium">{user?.name}</span>
+                  <Menu.Button className="inline-flex w-full justify-center p-1 text-white hover:opacity-90 focus:outline-none sm:px-4 sm:py-2">
+                    <span className="hidden font-medium sm:block">
+                      {user?.name}
+                    </span>
+
                     <ChevronDownIcon
-                      className="-mr-1 ml-2 h-6 w-6"
+                      className="-mr-1 ml-2 hidden h-6 w-6 sm:block"
+                      aria-hidden="true"
+                    />
+                    <Bars3Icon
+                      className="h-6 w-6 sm:hidden"
                       aria-hidden="true"
                     />
                   </Menu.Button>

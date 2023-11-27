@@ -8,12 +8,12 @@ const PotentialChats = ({ updateSelectedTabIndex }) => {
 
   return (
     <>
-      <div className="mb-4 flex">
+      <div className="mb-4">
         {potentialChats && potentialChats.length > 0 ? (
           potentialChats.map((u, index) => {
             return (
               <div
-                className="relative mr-2 cursor-pointer rounded-md bg-teal-500 px-1.5 py-1 text-white"
+                className="relative mb-2 mr-2 inline-block cursor-pointer rounded-md bg-teal-500 px-1.5 py-1 text-white"
                 key={index}
                 onClick={() => {
                   createChat(user._id, u._id);

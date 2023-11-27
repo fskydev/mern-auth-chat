@@ -4,14 +4,22 @@ import { ChatContext } from "../../context/ChatContext";
 import { useFetchRecipientUser } from "../../hooks/useFetchRecipient";
 import moment from "moment";
 import InputEmoji from "react-input-emoji";
-import { PaperAirplaneIcon } from "@heroicons/react/20/solid";
+import {
+  ArrowLongLeftIcon,
+  PaperAirplaneIcon,
+} from "@heroicons/react/20/solid";
 import clsx from "clsx";
 import { toast } from "react-toastify";
 
 const ChatBox = () => {
   const { user } = useContext(AuthContext);
-  const { currentChat, messages, isMessagesLoading, sendTextMessage } =
-    useContext(ChatContext);
+  const {
+    currentChat,
+    updateCurrentChat,
+    messages,
+    isMessagesLoading,
+    sendTextMessage,
+  } = useContext(ChatContext);
   const { recipientUser, error: recipientUserFetchError } =
     useFetchRecipientUser(currentChat, user);
   const [textMessage, setTextMessage] = useState("");
@@ -27,7 +35,7 @@ const ChatBox = () => {
     scroll.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  if (!recipientUser)
+  if (!recipientUser || !currentChat)
     return (
       <span className="w-full pt-5 text-center sm:basis-3/4">
         Select a chat to start messaging
@@ -38,9 +46,24 @@ const ChatBox = () => {
     return <p className="w-full text-center sm:basis-3/4">Loading Chat...</p>;
 
   return (
-    <div className="flex h-[80vh] w-full flex-col gap-4 overflow-y-auto bg-zinc-900/50 sm:h-[70vh] sm:basis-3/4">
-      <div className="flex flex-none items-center justify-center bg-zinc-700 p-1">
-        <strong className="p-2.5 leading-4">{recipientUser?.name} - </strong>
+    <div
+      className={clsx(
+        "flex h-[calc(100vh-5.25rem)] w-full flex-col gap-4 overflow-y-auto bg-zinc-900/50 sm:h-[70vh] sm:basis-3/4",
+        currentChat ? "" : "hidden sm:flex",
+      )}
+    >
+      <div className="flex flex-none items-center justify-between bg-zinc-700 p-1">
+        <button
+          className="flex-none sm:hidden"
+          onClick={() => {
+            updateCurrentChat(null);
+          }}
+        >
+          <ArrowLongLeftIcon className="h-5 w-5 text-white" />
+        </button>
+        <strong className="flex-1 p-2.5 text-center leading-4">
+          {recipientUser?.name}
+        </strong>
       </div>
       <div className="flex grow flex-col gap-3 overflow-y-auto px-3 py-0">
         {messages &&

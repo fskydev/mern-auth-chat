@@ -20,7 +20,9 @@ const Users = () => {
   const [selectedTabIndex, setSelectedTabIndex] = useState(0);
 
   return (
-    <div className="sm:basis-1/4">
+    <div
+      className={clsx("w-full sm:basis-1/4", currentChat && "hidden sm:block")}
+    >
       <Tab.Group
         manual
         selectedIndex={selectedTabIndex}

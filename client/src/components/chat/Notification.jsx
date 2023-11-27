@@ -46,7 +46,7 @@ const Notification = () => {
               )}
             </Popover.Button>
 
-            <Popover.Panel className="absolute right-0 z-10 mt-1 w-80  px-4 sm:px-0">
+            <Popover.Panel className="absolute right-0 z-10 mt-1 w-[calc(100vw-3.5rem)] sm:w-80">
               <div className="overflow-hidden bg-zinc-900">
                 <div className="flex justify-between p-4">
                   <span className="flex items-center">
