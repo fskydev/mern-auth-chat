@@ -33,18 +33,18 @@ const UserChat = ({ chat, user }) => {
 
   return (
     <div
-      className="relative flex cursor-pointer items-center justify-between gap-3 border-b border-[#646464] p-2"
+      className="relative flex cursor-pointer items-center justify-between gap-1"
       onClick={() => {
         if (thisUserNotifications?.length !== 0) {
           markThisUserNotificationsAsRead(thisUserNotifications, notifications);
         }
       }}
     >
-      <div className="flex">
+      <div className="flex basis-3/5">
         <div className="mr-2">
           <img src={avatar} className="h-10 w-10" />
         </div>
-        <div className="w-44">
+        <div>
           <div className="font-bold">{recipientUser?.name}</div>
           <div className="text-sm text-gray-400">
             {latestMessage?.text && (
@@ -53,14 +53,14 @@ const UserChat = ({ chat, user }) => {
           </div>
         </div>
       </div>
-      <div className="flex flex-col items-end">
+      <div className="flex basis-2/5 flex-col items-end py-2">
         <div className="text-right text-sm text-gray-400">
           {moment(latestMessage?.createdAt).calendar()}
         </div>
         <div
           className={
             thisUserNotifications?.length > 0
-              ? "flex h-5 w-5 items-center justify-center rounded-full bg-[#00bd9b] text-[0.75rem] font-bold"
+              ? "flex h-5 w-5 items-center justify-center rounded-full bg-teal-500 text-[0.75rem] font-bold"
               : ""
           }
         >

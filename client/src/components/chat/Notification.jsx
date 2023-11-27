@@ -3,7 +3,7 @@ import { AuthContext } from "../../context/AuthContext";
 import { ChatContext } from "../../context/ChatContext";
 import { unreadNotificationsFunc } from "../../utils/unreadNotifications";
 import moment from "moment";
-
+import clsx from "clsx";
 import { Popover } from "@headlessui/react";
 import { ChatBubbleOvalLeftEllipsisIcon } from "@heroicons/react/20/solid";
 
@@ -33,9 +33,10 @@ const Notification = () => {
         {({ open, close }) => (
           <>
             <Popover.Button
-              className={`${
-                open ? "opacity-90" : "opacity-100"
-              } relative py-2 focus:outline-none`}
+              className={clsx(
+                "relative py-2 focus:outline-none",
+                open ? "opacity-90" : "opacity-100",
+              )}
             >
               <ChatBubbleOvalLeftEllipsisIcon className="h-6 w-6 text-white" />
               {unreadNotifications?.length > 0 && (
@@ -54,7 +55,7 @@ const Notification = () => {
                     </span>
                   </span>
                   <span
-                    className="block cursor-pointer text-sm font-bold text-zinc-400"
+                    className="block cursor-pointer text-sm font-bold text-zinc-400 hover:opacity-90"
                     onClick={() => markAllNotificationsAsRead(notifications)}
                   >
                     Mark all as read
@@ -70,9 +71,10 @@ const Notification = () => {
                     modifiedNotifications.map((n, index) => (
                       <div
                         key={index}
-                        className={`${
-                          n.isRead ? "bg-zinc-900" : "bg-zinc-700"
-                        } flex cursor-pointer flex-col border-b border-zinc-500 px-4 py-2 text-sm hover:opacity-90`}
+                        className={clsx(
+                          "flex cursor-pointer flex-col border-b border-zinc-500 px-4 py-2 text-sm hover:opacity-90",
+                          n.isRead ? "bg-zinc-900" : "bg-zinc-700",
+                        )}
                         onClick={() => {
                           close();
                           markNotificationAsRead(

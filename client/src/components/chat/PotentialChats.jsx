@@ -2,20 +2,23 @@ import { useContext } from "react";
 import { ChatContext } from "../../context/ChatContext";
 import { AuthContext } from "../../context/AuthContext";
 
-const PotentialChats = () => {
+const PotentialChats = ({ updateSelectedTabIndex }) => {
   const { user } = useContext(AuthContext);
   const { potentialChats, createChat, onlineUsers } = useContext(ChatContext);
 
   return (
     <>
       <div className="mb-4 flex">
-        {potentialChats &&
+        {potentialChats && potentialChats.length > 0 ? (
           potentialChats.map((u, index) => {
             return (
               <div
-                className="relative mr-2 cursor-pointer rounded-md bg-sky-400 px-1.5 py-1 text-white"
+                className="relative mr-2 cursor-pointer rounded-md bg-teal-500 px-1.5 py-1 text-white"
                 key={index}
-                onClick={() => createChat(user._id, u._id)}
+                onClick={() => {
+                  createChat(user._id, u._id);
+                  updateSelectedTabIndex(0);
+                }}
               >
                 {u.name}
                 <span
@@ -27,7 +30,10 @@ const PotentialChats = () => {
                 ></span>
               </div>
             );
-          })}
+          })
+        ) : (
+          <>No new potential connections</>
+        )}
       </div>
     </>
   );

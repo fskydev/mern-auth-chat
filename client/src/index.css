@@ -5,9 +5,9 @@
 @tailwind utilities;
 
 body {
-  @apply bg-[#282828] text-white;
+  @apply bg-zinc-800 text-white;
 }
 
 .user-online {
-  @apply absolute -right-[3px] -top-[3px] z-20 inline-block h-3 w-3 rounded-full bg-[#00db00];
+  @apply absolute -right-[3px] -top-[3px] z-20 inline-block h-3 w-3 rounded-full bg-green-500;
 }

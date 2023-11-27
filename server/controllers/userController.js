@@ -1,63 +1,63 @@
+import asyncHandler from "express-async-handler";
 import User from "../models/userModel.js";
-import bcrypt from "bcrypt";
 import validator from "validator";
 import generateToken from "../utils/generateToken.js";
 
-const registerUser = async (req, res) => {
-  try {
-    const { name, email, password } = req.body;
+const registerUser = asyncHandler(async (req, res) => {
+  const { name, email, password } = req.body;
 
-    let user = await User.findOne({ email });
+  const userExists = await User.findOne({ email });
 
-    if (user)
-      return res.status(400).json("User with the given email already exist...");
+  if (userExists) {
+    res.status(400);
+    throw new Error("User with the given email already exists...");
+  }
 
-    if (!name || !email || !password)
-      return res.status(400).json("All fields are required");
+  if (!name || !email || !password) {
+    res.status(400);
+    throw new Error("All fields are required");
+  }
 
-    if (!validator.isEmail(email))
-      return res.status(400).json("Email must be a valid email...");
+  if (!validator.isEmail(email)) {
+    res.status(400);
+    throw new Error("Email must be a valid email...");
+  }
 
-    if (!validator.isStrongPassword(password))
-      return res.status(400).json("Password must be a strong password...");
+  if (!validator.isStrongPassword(password)) {
+    res.status(400);
+    throw new Error("Password must be a strong password...");
+  }
 
-    user = new User({ name, email, password });
+  const user = await User.create({
+    name,
+    email,
+    password,
+  });
 
-    const salt = await bcrypt.genSalt(10);
-    user.password = await bcrypt.hash(user.password, salt);
-
-    await user.save();
-
+  if (user) {
     generateToken(res, user._id);
 
-    res.status(200).json({ _id: user._id, name, email });
-  } catch (error) {
-    console.log(error);
-    res.status(500).json(error);
+    res.status(201).json({ _id: user._id, name, email });
+  } else {
+    res.status(500);
+    throw new Error("Registration failed...");
   }
-};
+});
 
-const loginUser = async (req, res) => {
+const loginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
-  try {
-    let user = await User.findOne({ email });
+  const user = await User.findOne({ email });
 
-    if (!user) return res.status(400).json("Invalid email or password...");
-
-    const isValidPassword = await bcrypt.compare(password, user.password);
-
-    if (!isValidPassword)
-      return res.status(400).json("Invalid email or password...");
-
+  if (user && (await user.matchPassword(password))) {
     generateToken(res, user._id);
 
     res.status(200).json({ _id: user._id, name: user.name, email });
-  } catch (error) {
-    console.log(error);
-    res.status(500).json(error);
+  } else {
+    res.status(401);
+    throw new Error("Invalid email or password");
   }
-};
+});
 
 const logoutUser = (req, res) => {
   res.cookie("jwt", "", {
@@ -68,18 +68,18 @@ const logoutUser = (req, res) => {
   res.status(200).json({ message: "Logged out successfully" });
 };
 
-const findUser = async (req, res) => {
+const findUser = asyncHandler(async (req, res) => {
   const userId = req.params.userId;
 
-  try {
-    const user = await User.findById(userId);
+  const user = await User.findById(userId);
 
+  if (user) {
     res.status(200).json(user);
-  } catch (error) {
-    console.log(error);
-    res.status(500).json(error);
+  } else {
+    res.status(404);
+    throw new Error("User not found");
   }
-};
+});
 
 const getUsers = async (req, res) => {
   try {

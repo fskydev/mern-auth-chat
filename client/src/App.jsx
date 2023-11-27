@@ -6,11 +6,14 @@ import NavBar from "./components/NavBar";
 import { useContext } from "react";
 import { AuthContext } from "./context/AuthContext";
 import { ChatContextProvider } from "./context/ChatContext";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   const { user } = useContext(AuthContext);
   return (
     <ChatContextProvider user={user}>
+      <ToastContainer />
       <NavBar />
       <div className="container mx-auto">
         <Routes>

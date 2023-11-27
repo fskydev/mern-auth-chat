@@ -14,14 +14,14 @@ export const useFetchRecipientUser = (chat, user) => {
       const response = await getRequest(`${baseUrl}/users/find/${recipientId}`);
 
       if (response.error) {
-        return setError(error);
+        setError(response);
+      } else {
+        setRecipientUser(response);
       }
-
-      setRecipientUser(response);
     };
 
     getUser();
   }, [recipientId]);
 
-  return { recipientUser }; //, error
+  return { recipientUser, error };
 };

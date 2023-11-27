@@ -11,7 +11,7 @@ export const useFetchLatestMessage = (chat) => {
       const response = await getRequest(`${baseUrl}/messages/${chat?._id}`);
 
       if (response.error) {
-        return console.log("Error getting message...", response.error);
+        return console.log("Error getting message...", response.message);
       }
 
       const lastMessage = response[response?.length - 1];

@@ -12,7 +12,10 @@ export const postRequest = async (url, body) => {
 
     return await response.data;
   } catch (error) {
-    return { error: true, message: error.message };
+    return {
+      error: true,
+      message: error.response.data?.message || error.message,
+    };
   }
 };
 
@@ -22,7 +25,9 @@ export const getRequest = async (url) => {
 
     return await response.data;
   } catch (error) {
-    console.error(error);
-    return { error: true, message: error.message };
+    return {
+      error: true,
+      message: error.response.data?.message || error.message,
+    };
   }
 };

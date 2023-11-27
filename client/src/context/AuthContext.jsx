@@ -11,6 +11,7 @@ export const AuthContextProvider = ({ children }) => {
     name: "",
     email: "",
     password: "",
+    confirmPassword: "",
   });
   const [loginError, setLoginError] = useState(null);
   const [isLoginLoading, setIsLoginLoading] = useState(false);
@@ -25,6 +26,14 @@ export const AuthContextProvider = ({ children }) => {
     setUser(JSON.parse(user));
   }, []);
 
+  const updateRegisterError = useCallback((info) => {
+    setRegisterError(info);
+  }, []);
+
+  const updateLoginError = useCallback((info) => {
+    setLoginError(info);
+  }, []);
+
   const updateRegisterInfo = useCallback((info) => {
     setRegisterInfo(info);
   }, []);
@@ -37,21 +46,29 @@ export const AuthContextProvider = ({ children }) => {
     async (e) => {
       e.preventDefault();
 
-      setIsRegisterLoading(true);
       setRegisterError(null);
 
-      const response = await postRequest(
-        `${baseUrl}/users/register`,
-        JSON.stringify(registerInfo),
-      );
-      setIsRegisterLoading(false);
+      if (registerInfo.password !== registerInfo.confirmPassword) {
+        setRegisterError({
+          error: true,
+          message: "Passwords do not match",
+        });
+      } else {
+        setIsRegisterLoading(true);
 
-      if (response.error) {
-        return setRegisterError(response);
+        const response = await postRequest(
+          `${baseUrl}/users/register`,
+          JSON.stringify(registerInfo),
+        );
+        setIsRegisterLoading(false);
+
+        if (response.error) {
+          return setRegisterError(response);
+        }
+
+        localStorage.setItem("User", JSON.stringify(response));
+        setUser(response);
       }
-
-      localStorage.setItem("User", JSON.stringify(response));
-      setUser(response);
     },
     [registerInfo],
   );
@@ -93,10 +110,12 @@ export const AuthContextProvider = ({ children }) => {
         updateRegisterInfo,
         registerUser,
         registerError,
+        updateRegisterError,
         isRegisterLoading,
         logoutUser,
         loginUser,
         loginError,
+        updateLoginError,
         loginInfo,
         updateLoginInfo,
         isLoginLoading,

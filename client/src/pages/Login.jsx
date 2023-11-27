@@ -1,9 +1,23 @@
-import { useContext } from "react";
+import { useEffect, useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
+import { toast } from "react-toastify";
 
 const Login = () => {
-  const { loginUser, loginError, loginInfo, updateLoginInfo, isLoginLoading } =
-    useContext(AuthContext);
+  const {
+    loginUser,
+    loginError,
+    updateLoginError,
+    loginInfo,
+    updateLoginInfo,
+    isLoginLoading,
+  } = useContext(AuthContext);
+
+  useEffect(() => {
+    if (loginError?.error) {
+      toast.error(loginError.message);
+      updateLoginError(null);
+    }
+  }, [loginError]);
 
   return (
     <>
@@ -30,7 +44,7 @@ const Login = () => {
                   type="email"
                   autoComplete="email"
                   required
-                  className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  className="block w-full rounded-sm border-0 p-1.5 text-gray-900 placeholder:text-gray-400 sm:text-sm sm:leading-6"
                   onChange={(e) =>
                     updateLoginInfo({ ...loginInfo, email: e.target.value })
                   }
@@ -54,7 +68,7 @@ const Login = () => {
                   type="password"
                   autoComplete="current-password"
                   required
-                  className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  className="block w-full rounded-sm border-0 p-1.5 text-gray-900 placeholder:text-gray-400 sm:text-sm sm:leading-6"
                   onChange={(e) =>
                     updateLoginInfo({ ...loginInfo, password: e.target.value })
                   }
@@ -65,11 +79,10 @@ const Login = () => {
             <div>
               <button
                 type="submit"
-                className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                className="flex w-full justify-center rounded-sm bg-teal-600 px-3 py-1.5 text-sm font-medium leading-6 text-white shadow-sm hover:bg-teal-500"
               >
                 {isLoginLoading ? "Getting you in..." : "Login"}
               </button>
-              {loginError?.error && <p>{loginError?.message}</p>}
             </div>
           </form>
         </div>
