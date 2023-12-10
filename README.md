@@ -1,4 +1,4 @@
-# MERN Auth & Chat Starter App
+# MERN Auth & Chat App
 
 ### NodeJS - Express - JWT -  Socket.io - MongoDB - React - React Router - Context API - TailwindCSS
 
@@ -11,7 +11,8 @@ Basically, it consists of 2 parts as the follows:
 ## Demo url
 https://mern-auth-chat.onrender.com/
 
-![Screenshot 01](https://github.com/fskydev/mern-auth-chat/assets/61609164/1f4ccc2e-bb9e-4e12-8674-624ba5dbdbf4)
+![Screenshot 10](https://github.com/fskydev/mern-auth-chat/assets/61609164/8221d394-1d09-485a-8411-2d3ab3067f42)
+
 
 ## Usage
 - Create a MongoDB database and obtain your `MongoDB URI` - [MongoDB Atlas](https://www.mongodb.com/cloud/atlas/register)
@@ -70,7 +71,7 @@ cd client/ && npm install && npm run build && cd .. && cd server/ && npm install
 
 ## Screenshots
 #### Private Chat
-
+![Screenshot 10](https://github.com/fskydev/mern-auth-chat/assets/61609164/8221d394-1d09-485a-8411-2d3ab3067f42)
 ![Screenshot 01](https://github.com/fskydev/mern-auth-chat/assets/61609164/462a575f-aa61-4438-b04e-a60e55dffa38)
 
 #### Login & Register
