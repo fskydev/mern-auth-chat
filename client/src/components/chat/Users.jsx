@@ -59,7 +59,7 @@ const Users = () => {
           </Tab>
         </Tab.List>
         <Tab.Panels>
-          <Tab.Panel className="rounded-b-sm bg-zinc-900/50 p-3 focus:outline-none sm:max-h-[calc(100vh-8rem)] sm:overflow-y-auto">
+          <Tab.Panel className="rounded-b-sm bg-zinc-900/50 p-3 focus:outline-none sm:max-h-[calc(80vh-2.8rem)] sm:overflow-y-auto">
             {userChats?.length < 1 ? null : (
               <div className="flex grow-0 flex-col gap-0">
                 {isUserChatsLoading && <p>Loading chats...</p>}

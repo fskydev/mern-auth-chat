@@ -1,10 +1,12 @@
 import { createContext, useCallback, useEffect, useState } from "react";
-import { baseUrl, postRequest } from "../utils/services";
+import { baseUrl, postRequest, putRequest } from "../utils/services";
+import { toast } from "react-toastify";
 
 export const AuthContext = createContext();
 
 export const AuthContextProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+
   const [registerError, setRegisterError] = useState(null);
   const [isRegisterLoading, setIsRegisterLoading] = useState(false);
   const [registerInfo, setRegisterInfo] = useState({
@@ -13,11 +15,21 @@ export const AuthContextProvider = ({ children }) => {
     password: "",
     confirmPassword: "",
   });
+
   const [loginError, setLoginError] = useState(null);
   const [isLoginLoading, setIsLoginLoading] = useState(false);
   const [loginInfo, setLoginInfo] = useState({
     email: "",
     password: "",
+  });
+
+  const [profileError, setProfileError] = useState(null);
+  const [isUpdateProfileLoading, setIsUpdateProfileLoading] = useState(false);
+  const [profileInfo, setProfileInfo] = useState({
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
   });
 
   useEffect(() => {
@@ -34,12 +46,20 @@ export const AuthContextProvider = ({ children }) => {
     setLoginError(info);
   }, []);
 
+  const updateProfileError = useCallback((info) => {
+    setProfileError(info);
+  }, []);
+
   const updateRegisterInfo = useCallback((info) => {
     setRegisterInfo(info);
   }, []);
 
   const updateLoginInfo = useCallback((info) => {
     setLoginInfo(info);
+  }, []);
+
+  const updateProfileInfo = useCallback((info) => {
+    setProfileInfo(info);
   }, []);
 
   const registerUser = useCallback(
@@ -68,6 +88,7 @@ export const AuthContextProvider = ({ children }) => {
 
         localStorage.setItem("User", JSON.stringify(response));
         setUser(response);
+        toast.success("Registration Successful!");
       }
     },
     [registerInfo],
@@ -102,23 +123,65 @@ export const AuthContextProvider = ({ children }) => {
     setUser(null);
   }, []);
 
+  const updateUserProfile = useCallback(
+    async (e) => {
+      e.preventDefault();
+
+      setProfileError(null);
+
+      if (profileInfo.password !== profileInfo.confirmPassword) {
+        setProfileError({
+          error: true,
+          message: "Passwords do not match",
+        });
+      } else {
+        setIsUpdateProfileLoading(true);
+
+        const response = await putRequest(
+          `${baseUrl}/users/profile`,
+          JSON.stringify(profileInfo),
+        );
+        setIsUpdateProfileLoading(false);
+
+        if (response.error) {
+          return setProfileError(response);
+        }
+
+        localStorage.setItem("User", JSON.stringify(response));
+        setUser(response);
+        toast.success("Profile updated successfully");
+      }
+    },
+    [profileInfo],
+  );
+
   return (
     <AuthContext.Provider
       value={{
         user,
+
         registerInfo,
         updateRegisterInfo,
         registerUser,
         registerError,
         updateRegisterError,
         isRegisterLoading,
+
         logoutUser,
+
         loginUser,
         loginError,
         updateLoginError,
         loginInfo,
         updateLoginInfo,
         isLoginLoading,
+
+        profileInfo,
+        updateProfileInfo,
+        updateUserProfile,
+        profileError,
+        updateProfileError,
+        isUpdateProfileLoading,
       }}
     >
       {children}

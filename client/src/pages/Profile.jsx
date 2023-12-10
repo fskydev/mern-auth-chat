@@ -1,36 +1,44 @@
 import { useContext, useEffect } from "react";
-import { Link } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import { toast } from "react-toastify";
 
-const Register = () => {
+const Profile = () => {
   const {
-    registerInfo,
-    updateRegisterInfo,
-    registerUser,
-    registerError,
-    updateRegisterError,
-    isRegisterLoading,
+    user,
+    profileInfo,
+    updateProfileInfo,
+    updateUserProfile,
+    profileError,
+    updateProfileError,
+    isUpdateProfileLoading,
   } = useContext(AuthContext);
 
   useEffect(() => {
-    if (registerError?.error) {
-      toast.error(registerError.message);
-      updateRegisterError(null);
+    updateProfileInfo({
+      ...profileInfo,
+      name: user.name,
+      email: user.email,
+    });
+  }, [user]);
+
+  useEffect(() => {
+    if (profileError?.error) {
+      toast.error(profileError.message);
+      updateProfileError(null);
     }
-  }, [registerError]);
+  }, [profileError]);
 
   return (
     <>
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight">
-            Register
+            Update Profile
           </h2>
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form className="space-y-6" onSubmit={registerUser}>
+          <form className="space-y-6" onSubmit={updateUserProfile}>
             <div>
               <label
                 htmlFor="name"
@@ -43,11 +51,12 @@ const Register = () => {
                   id="name"
                   name="name"
                   type="text"
+                  value={profileInfo.name}
                   required
                   className="block w-full rounded-sm border-0 p-1.5 text-gray-900 placeholder:text-gray-400 sm:text-sm sm:leading-6"
                   onChange={(e) =>
-                    updateRegisterInfo({
-                      ...registerInfo,
+                    updateProfileInfo({
+                      ...profileInfo,
                       name: e.target.value,
                     })
                   }
@@ -66,15 +75,11 @@ const Register = () => {
                   id="email"
                   name="email"
                   type="email"
+                  value={profileInfo.email}
                   autoComplete="email"
                   required
-                  className="block w-full rounded-sm border-0 p-1.5 text-gray-900 placeholder:text-gray-400 sm:text-sm sm:leading-6"
-                  onChange={(e) =>
-                    updateRegisterInfo({
-                      ...registerInfo,
-                      email: e.target.value,
-                    })
-                  }
+                  readOnly
+                  className="block w-full rounded-sm border-0 bg-gray-300 p-1.5 text-gray-900 placeholder:text-gray-400 sm:text-sm sm:leading-6"
                 />
               </div>
             </div>
@@ -94,11 +99,10 @@ const Register = () => {
                   name="password"
                   type="password"
                   autoComplete="current-password"
-                  required
                   className="block w-full rounded-sm border-0 p-1.5 text-gray-900 placeholder:text-gray-400 sm:text-sm sm:leading-6"
                   onChange={(e) =>
-                    updateRegisterInfo({
-                      ...registerInfo,
+                    updateProfileInfo({
+                      ...profileInfo,
                       password: e.target.value,
                     })
                   }
@@ -120,11 +124,10 @@ const Register = () => {
                   id="confirmPassword"
                   name="confirmPassword"
                   type="password"
-                  required
                   className="block w-full rounded-sm border-0 p-1.5 text-gray-900 placeholder:text-gray-400 sm:text-sm sm:leading-6"
                   onChange={(e) =>
-                    updateRegisterInfo({
-                      ...registerInfo,
+                    updateProfileInfo({
+                      ...profileInfo,
                       confirmPassword: e.target.value,
                     })
                   }
@@ -136,21 +139,16 @@ const Register = () => {
               <button
                 type="submit"
                 className="flex w-full justify-center rounded-sm bg-teal-600 px-3 py-1.5 text-sm font-medium leading-6 text-white shadow-sm hover:bg-teal-500"
-                disabled={isRegisterLoading}
+                disabled={isUpdateProfileLoading}
               >
-                {isRegisterLoading ? "Creating your account..." : "Register"}
+                {isUpdateProfileLoading ? "Updating your profile..." : "Update"}
               </button>
             </div>
           </form>
-          <Link to="/login">
-            <span className="mt-6 block underline underline-offset-2">
-              Already have an account?
-            </span>
-          </Link>
         </div>
       </div>
     </>
   );
 };
 
-export default Register;
+export default Profile;

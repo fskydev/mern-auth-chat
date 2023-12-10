@@ -1,4 +1,5 @@
 import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import { ChatContext } from "../../context/ChatContext";
 import { unreadNotificationsFunc } from "../../utils/unreadNotifications";
@@ -9,6 +10,7 @@ import { ChatBubbleOvalLeftEllipsisIcon } from "@heroicons/react/20/solid";
 
 const Notification = () => {
   const { user } = useContext(AuthContext);
+  const navigate = useNavigate();
   const {
     notifications,
     userChats,
@@ -77,6 +79,7 @@ const Notification = () => {
                         )}
                         onClick={() => {
                           close();
+                          navigate("/");
                           markNotificationAsRead(
                             n,
                             userChats,

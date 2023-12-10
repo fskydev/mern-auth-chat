@@ -50,7 +50,7 @@ const ChatBox = () => {
   return (
     <div
       className={clsx(
-        "flex h-[calc(100vh-5.25rem)] w-full flex-col gap-4 overflow-y-auto bg-zinc-900/50 sm:h-[70vh] sm:basis-3/4",
+        "flex h-[calc(100vh-5.25rem)] w-full flex-col gap-4 overflow-y-auto bg-zinc-900/50 sm:h-[80vh] sm:basis-3/4",
         currentChat ? "" : "hidden sm:flex",
       )}
     >

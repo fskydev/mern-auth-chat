@@ -45,16 +45,30 @@ const NavBar = () => {
                         {user?.name}
                       </span>
                     </div>
-                    <Menu.Item disabled>
+                    <Menu.Item>
                       {({ active }) => (
-                        <button
+                        <Link
+                          to="/"
                           className={clsx(
                             "group flex w-full items-center px-4 py-2 font-medium",
                             active ? "bg-zinc-700 text-white" : "text-zinc-400",
                           )}
                         >
-                          Profile (coming soon!)
-                        </button>
+                          Chat
+                        </Link>
+                      )}
+                    </Menu.Item>
+                    <Menu.Item>
+                      {({ active }) => (
+                        <Link
+                          to="/profile"
+                          className={clsx(
+                            "group flex w-full items-center px-4 py-2 font-medium",
+                            active ? "bg-zinc-700 text-white" : "text-zinc-400",
+                          )}
+                        >
+                          Profile
+                        </Link>
                       )}
                     </Menu.Item>
                     <Menu.Item>

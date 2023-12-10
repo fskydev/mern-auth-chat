@@ -31,3 +31,20 @@ export const getRequest = async (url) => {
     };
   }
 };
+
+export const putRequest = async (url, body) => {
+  try {
+    const response = await axios.put(url, body, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    return await response.data;
+  } catch (error) {
+    return {
+      error: true,
+      message: error.response.data?.message || error.message,
+    };
+  }
+};
